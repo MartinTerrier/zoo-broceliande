@@ -17,4 +17,8 @@ export class ServicesService {
   async deleteService(id: number) {
     return await this.servicesRepository.deleteService(id);
   }
+
+  async updateService(id: number, serviceDto: ServiceDto) {
+    return await this.servicesRepository.updateService(id, serviceDto);
+  }
 }

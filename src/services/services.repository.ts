@@ -11,11 +11,11 @@ export class ServicesRepository extends Repository<Service> {
 
   async createService(serviceDto: ServiceDto) {
     const { name, description } = serviceDto;
-
     const newService = this.create({
       name,
       description,
     });
+
     await this.save(newService);
     return newService;
   }
@@ -25,5 +25,19 @@ export class ServicesRepository extends Repository<Service> {
     if (!result.affected) {
       throw new NotFoundException(`Service with id ${id} not found.`);
     }
+  }
+
+  async updateService(id: number, serviceDto: ServiceDto) {
+    const { name, description } = serviceDto;
+    const serviceToUpdate = await this.findOneBy({ id });
+
+    if (!serviceToUpdate) {
+      throw new NotFoundException(`Service with id ${id} not found.`);
+    }
+
+    serviceToUpdate.name = name;
+    serviceToUpdate.description = description;
+    await this.save(serviceToUpdate);
+    return serviceToUpdate;
   }
 }
