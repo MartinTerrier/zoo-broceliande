@@ -10,7 +10,7 @@ import 'dotenv/config';
     TypeOrmModule.forRoot({
       url: process.env.DATABASE_URL,
       type: 'postgres',
-      ssl: true,
+      // ssl: true,
       autoLoadEntities: true,
       synchronize: true,
     }),
