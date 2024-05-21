@@ -13,4 +13,8 @@ export class ServicesService {
   async createService(serviceDto: ServiceDto) {
     return await this.servicesRepository.createService(serviceDto);
   }
+
+  async deleteService(id: number) {
+    return await this.servicesRepository.deleteService(id);
+  }
 }

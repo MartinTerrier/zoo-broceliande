@@ -1,6 +1,6 @@
 import { DataSource, Repository } from 'typeorm';
 import { Service } from './service.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ServiceDto } from '../dto/service.dto';
 
 @Injectable()
@@ -18,5 +18,12 @@ export class ServicesRepository extends Repository<Service> {
     });
     await this.save(newService);
     return newService;
+  }
+
+  async deleteService(id: number) {
+    const result = await this.delete(id);
+    if (!result.affected) {
+      throw new NotFoundException(`Service with id ${id} not found.`);
+    }
   }
 }
