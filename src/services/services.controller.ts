@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { ServiceDto } from '../dto/service.dto';
+import { ServiceDto } from './dto/service.dto';
 
 @Controller('services')
 export class ServicesController {

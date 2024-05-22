@@ -1,7 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
 import { Service } from './service.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ServiceDto } from '../dto/service.dto';
+import { ServiceDto } from './dto/service.dto';
 
 @Injectable()
 export class ServicesRepository extends Repository<Service> {

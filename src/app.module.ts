@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ServicesModule } from './services/services.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsModule } from './comments/comments.module';
+import { AuthModule } from './auth/auth.module';
+import { AnimalsModule } from './animals/animals.module';
+import { HabitatsModule } from './habitats/habitats.module';
 import * as process from 'node:process';
 import 'dotenv/config';
 
@@ -16,6 +19,9 @@ import 'dotenv/config';
       synchronize: true,
     }),
     CommentsModule,
+    AuthModule,
+    AnimalsModule,
+    HabitatsModule,
   ],
   controllers: [],
   providers: [],
