@@ -1,7 +1,7 @@
 import { Role } from '../role.enum';
 import { IsEmail, IsEnum } from 'class-validator';
 
-export class UserCredentialsDto {
+export class UserDataDto {
   @IsEmail()
   userName: string;
   name: string;

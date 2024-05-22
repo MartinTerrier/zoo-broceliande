@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
-import { UserCredentialsDto } from './dto/userCredentials.dto';
+import { UserDataDto } from './dto/userData.dto';
 import { generate } from 'generate-password';
 import * as bcrypt from 'bcrypt';
 
@@ -11,8 +11,8 @@ export class UsersRepository extends Repository<User> {
     super(User, datasource.createEntityManager());
   }
 
-  async createUser(userCredentialsDto: UserCredentialsDto) {
-    const { userName, name, firstName, role } = userCredentialsDto;
+  async createUser(userDataDto: UserDataDto) {
+    const { userName, name, firstName, role } = userDataDto;
 
     const found = await this.findOneBy({ userName });
     if (found) {

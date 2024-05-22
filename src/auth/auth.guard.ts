@@ -4,23 +4,18 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { Role } from './role.enum';
-import { ROLES_KEY } from './roles.decorator';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { Request } from 'express';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private jwtService: JwtService,
-  ) {}
+export class AuthGuard implements CanActivate {
+  constructor(private jwtService: JwtService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    console.log('token', token);
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -29,19 +24,11 @@ export class RolesGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
       request['user'] = payload;
+      console.log('payload', payload);
     } catch {
       throw new UnauthorizedException();
     }
-
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (!requiredRoles) {
-      return true;
-    }
-
-    return requiredRoles.some((role) => request.user.role === role);
+    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
