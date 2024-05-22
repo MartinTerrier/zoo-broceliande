@@ -1,0 +1,12 @@
+entity: Meal
+items:
+  meal1:
+    food: "Meat"
+    quantity: "5kg"
+    animalId: "@animal_lion"
+    employee: "@user_john"
+  meal2:
+    food: "Vegetables"
+    quantity: "10kg"
+    animalId: "@animal_elephant"
+    employee: "@user_jane"

@@ -1,0 +1,14 @@
+entity: Animal
+items:
+  lion:
+    name: "Lion"
+    species: "@species_feline"
+    status: "Healthy"
+    habitat: "@habitat_savanna"
+    views: 100
+  elephant:
+    name: "Elephant"
+    species: "@species_mammal"
+    status: "Sick"
+    habitat: "@habitat_rainforest"
+    views: 50
