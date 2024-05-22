@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ServicesModule } from './services/services.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommentsModule } from './comments/comments.module';
 import * as process from 'node:process';
 import 'dotenv/config';
 
@@ -14,6 +15,7 @@ import 'dotenv/config';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    CommentsModule,
   ],
   controllers: [],
   providers: [],
