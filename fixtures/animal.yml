@@ -1,12 +1,12 @@
 entity: Animal
 items:
-  lion:
+  animal_lion:
     name: "Lion"
     species: "@species_feline"
     status: "Healthy"
     habitat: "@habitat_savanna"
     views: 100
-  elephant:
+  animal_elephant:
     name: "Elephant"
     species: "@species_mammal"
     status: "Sick"
