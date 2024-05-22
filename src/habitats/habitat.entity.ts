@@ -11,6 +11,6 @@ export class Habitat {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   comment: string;
 }
