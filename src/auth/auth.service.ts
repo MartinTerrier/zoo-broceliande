@@ -31,4 +31,8 @@ export class AuthService {
     const accessToken = await this.jwtService.signAsync(payload);
     return { accessToken };
   }
+
+  async deleteUser(userName: string) {
+    await this.usersRepository.deleteUser(userName);
+  }
 }

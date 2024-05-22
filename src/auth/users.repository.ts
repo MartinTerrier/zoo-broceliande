@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UserDataDto } from './dto/userData.dto';
@@ -38,6 +42,17 @@ export class UsersRepository extends Repository<User> {
       password: hashedPassword,
     });
 
-    return await this.save(newUser);
+    await this.save(newUser);
+    return [newUser, password];
+  }
+
+  async deleteUser(userName: string) {
+    const found = await this.findOneBy({ userName });
+    console.log(userName);
+    if (!found) {
+      throw new NotFoundException(`No user found for email ${userName}.`);
+    }
+
+    await this.delete(found);
   }
 }

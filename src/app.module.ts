@@ -7,8 +7,6 @@ import { AnimalsModule } from './animals/animals.module';
 import { HabitatsModule } from './habitats/habitats.module';
 import * as process from 'node:process';
 import 'dotenv/config';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './auth/roles.guard';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersRepository } from './auth/users.repository';
