@@ -48,7 +48,6 @@ export class UsersRepository extends Repository<User> {
 
   async deleteUser(userName: string) {
     const found = await this.findOneBy({ userName });
-    console.log(userName);
     if (!found) {
       throw new NotFoundException(`No user found for email ${userName}.`);
     }
