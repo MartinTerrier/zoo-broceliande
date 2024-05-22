@@ -1,0 +1,8 @@
+entity: Service
+items:
+  service_tour:
+    name: "Guided Tour"
+    description: "Guided tour of the zoo"
+  service_encounter:
+    name: "Animal Encounter"
+    description: "Up-close encounter with animals"
