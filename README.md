@@ -1,73 +1,61 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+#  API du zoo Brocéliande
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Avertissement
+
+À ce stade, l'application ne possède pas de front-end. Pour interagir avec elle, en local comme dans sa version déployée, il est donc nécessaire d'utiliser une application de test d'API, comme par exemple Postman ou Insomnia. Un jeu de requêtes écrites pour Postman est disponible dans le dossier .\"Elements de rendu". Son utilisation sera détaillée plus bas.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ce dépôt GitHub contient le code d'une API gérant la partie back-end du site du zoo de Brocéliande. Elle permet notamment d'effectuer des opérations de CRUD sur différents éléments importants pour l'activité du zoo, et de gérer les autorisations afin qu'une fonctionnalité ne soit accessible qu'aux utilisateurs qui en ont besoin.
+
+## Clonage du dépôt en local
+
+Pour créer une copie de ce dépôt sur votre ordinateur, cliquez sur le bouton **<> Code** de la page principale du dépôt, puis sur **Ouvrir avec GitHub Desktop**. Sélectionnez le répertoire local où vous voulez placer le dépôt, puis cliquez sur **Cloner**.
 
 ## Installation
+
+Cette application a été dévelopéee avec NodeJs v21.7.1. Vérifiez que cette version de la plateforme est installée sur votre ordinateur. Si ce n'est pas le cas, vous pouvez la télécharger [dans la section Téléchargements du site Node Js](https://nodejs.org/en/download/).
+
+Pour installer l'application, exécutez la commande suivante dans un terminal :
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+Le gestionnaire de paquets npm installera automatiquement toutes les dépendances nécessaires au bon fonctionnement de l'application.
+
+## Base de données
+
+La base de données associée à cette application a été créée avec le SGBD PostgreSQL. Vérifiez que celui-ci est installé sur votre poste, puis créez une base de données en notant soigneusement le nom d'utilisateur, le mot de passe et le nom de base de données que vous avez choisis.
+Exécutez ensuite le script bddZoo.sql qui se trouve dans le dossier .\"Elements de rendu".
+Pour associer la base de données à l'application, vous devrez ensuite créer un fichier .env (sans extension) à la racine de votre projet et y indiquer l'URL à utiliser pour la base de données, sous la forme suivante :
+
+DATABASE_URL=postgres://<nom-d-utilisateur>:<mot-de-passe>@localhost:5432/<nom-de-la-base-de-données>
+
+Par exemple, voici l'url de mon environnement local de développement, où le nom d'utilisateur est 'postgres', la base de données s'appelle "zoo-broceliande" et le mot de passe est 'projetbroceliande'.
+
+DATABASE_URL=postgres://postgres:projetbroceliande@localhost:5432/zoo-broceliande
+
+## Lancer l'application
+
+Pour lancer l'application en mode développement, exécutez la commande suivante dans un terminal :
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
+```
 
-# production mode
+Et pour la lancer en mode production, exécutez la commande suivante :
+
+```bash
 $ npm run start:prod
 ```
 
-## Test
+## Tester l'application
 
-```bash
-# unit tests
-$ npm run test
+Comme indiqué en préambule, faute d'un front end développé, il n'est pour l'instant possible d'interagir avec l'application qu'à l'aide d'une application de test d'API. Le dossier .\"Elements de rendu" contient un jeu de requêtes écrites pour l'application Postman, dans le sous-dossier nommé 'Export requetes Postman'.
+Pour l'utiliser, vérifiez que l'application Postman est installée sur votre poste ou, si ce n'est pas le cas, installez-la depuis [la section Téléchargements du site dédié](https://www.postman.com/downloads/).
 
-# e2e tests
-$ npm run test:e2e
+Une fois Postman lancé, cliquez sur le bouton 'Import' situé en haut à gauche de l'interface et sélectionnez le dossier 'Export requetes Postman'. Trois éléments seront importés : une collection de requêtes permettant de tester les différentes fonctionnalités de l'application, et deux environnements de travail correspondant respectivement à l'application installée en local sur votre poste, et à l'application déployée sur Heroku.
 
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+La plupart des fonctionnalités étant réservées à un type précis d'utilisateur, pensez à utiliser l'une ou l'autre des requêtes de connexion avant de tester chaque fonctionnalité. Celle-ci générera un token d'authentification qui sera conservé une heure ou jusqu'à ce que vous vous connectiez avec une autre requête.
