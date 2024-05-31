@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -40,9 +40,9 @@
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "ts-node": "^10.9.1",
     "typeorm": "^0.3.20",
-    "typeorm-fixtures-cli": "^4.0.0",
-    "ts-node": "^10.9.1"
+    "typeorm-fixtures-cli": "^4.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.0",
