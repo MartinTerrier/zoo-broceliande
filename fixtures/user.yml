@@ -5,7 +5,7 @@ items:
     password: "$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLNU8zrJEuZ5u" #password
     name: "admin"
     firstName: "adm"
-    role: "vet"
+    role: "admin"
   user_john:
     userName: "john@example.com"
     password: "$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLNU8zrJEuZ5u"
