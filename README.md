@@ -27,13 +27,13 @@ Le gestionnaire de paquets npm installera automatiquement toutes les dépendance
 
 ## Base de données
 
-La base de données associée à cette application a été créée avec le SGBD PostgreSQL. Vérifiez que celui-ci est installé sur votre poste, puis créez une base de données en notant soigneusement le nom d'utilisateur, le mot de passe et le nom de base de données que vous avez choisis.
+La base de données associée à cette application a été créée avec le SGBD PostgreSQL. Vérifiez que celui-ci est installé sur votre poste, puis créez une base de données en notant soigneusement le nom d'utilisateur, le mot de passe, le port et le nom de base de données que vous avez choisis.
 Exécutez ensuite le script bddZoo.sql qui se trouve dans le dossier .\"Elements de rendu".
 Pour associer la base de données à l'application, vous devrez ensuite créer un fichier .env (sans extension) à la racine de votre projet et y indiquer l'URL à utiliser pour la base de données, sous la forme suivante :
 
-DATABASE_URL=postgres://<nom-d-utilisateur>:<mot-de-passe>@localhost:5432/<nom-de-la-base-de-données>
+DATABASE_URL=postgres://<nom-d-utilisateur>:<mot-de-passe>@localhost:<port>/<nom-de-la-base-de-données>
 
-Par exemple, voici l'url de mon environnement local de développement, où le nom d'utilisateur est 'postgres', la base de données s'appelle "zoo-broceliande" et le mot de passe est 'projetbroceliande'.
+Par exemple, voici l'url de mon environnement local de développement, où le nom d'utilisateur est 'postgres', la base de données s'appelle 'zoo-broceliande', le port utilisé est le port 5432 et le mot de passe est 'projetbroceliande'.
 
 DATABASE_URL=postgres://postgres:projetbroceliande@localhost:5432/zoo-broceliande
 
