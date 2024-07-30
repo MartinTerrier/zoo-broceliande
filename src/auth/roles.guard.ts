@@ -8,8 +8,8 @@ import { Reflector } from '@nestjs/core';
 import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
 import { JwtService } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
 import { Request } from 'express';
+import * as process from 'process';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -26,7 +26,7 @@ export class RolesGuard implements CanActivate {
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
+        secret: process.env.JWT_SECRET_KEY,
       });
       request['user'] = payload;
     } catch {

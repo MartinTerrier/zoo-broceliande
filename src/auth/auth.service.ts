@@ -5,6 +5,7 @@ import { UserDataDto } from './dto/userData.dto';
 import { SignInDto } from './dto/signInDto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as process from 'process';
 
 @Injectable()
 export class AuthService {
@@ -28,8 +29,10 @@ export class AuthService {
     }
 
     const payload = { userName, role: user.role };
-    const accessToken = await this.jwtService.signAsync(payload);
-    return { accessToken };
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+    });
+    return { accessToken: accessToken };
   }
 
   async deleteUser(userName: string) {
