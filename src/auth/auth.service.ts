@@ -32,7 +32,7 @@ export class AuthService {
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET_KEY,
     });
-    return { accessToken: accessToken };
+    return { accessToken };
   }
 
   async deleteUser(userName: string) {

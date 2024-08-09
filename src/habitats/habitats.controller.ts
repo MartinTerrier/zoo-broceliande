@@ -14,7 +14,6 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { HabitatDto } from './dto/habitat.dto';
-import { ServiceDto } from '../services/dto/service.dto';
 
 @Controller('habitats')
 export class HabitatsController {
