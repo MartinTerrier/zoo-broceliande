@@ -11,7 +11,18 @@ CREATE TABLE "user" (
 CREATE TABLE service (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
-    description VARCHAR NOT NULL
+    description VARCHAR NOT NULL,
+    "imageId" INT,
+    FOREIGN KEY ("imageId")
+                     REFERENCES service_image(id)
+);
+
+CREATE TABLE service_image (
+                               id SERIAL PRIMARY KEY NOT NULL,
+                               "imageFile" BYTEA NOT NULL,
+                               "serviceId" INT,
+                               FOREIGN KEY ("serviceId")
+                                   REFERENCES service(id)
 );
 
 CREATE TABLE comment (
@@ -84,8 +95,8 @@ VALUES ('admin@example.com', '$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLN
        ('john@example.com', '$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLNU8zrJEuZ5u', 'Doe', 'John', 'vet'),
        ('jane@example.com', '$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLNU8zrJEuZ5u', 'Smith', 'Jane', 'employee');
 INSERT INTO service (name, description)
-VALUES ('Guided Tour', 'Guided tour of the zoo'),
-        ('Animal Encounter', 'Up-close encounter with animals');
+VALUES ('Visite guidée du parc', 'Venez passer un moment exceptionnel au zooparc de Brocéliande ! Apprenez comment fonctionne le parc, ses projets, la gestion des animaux au quotidien. Au programme également, l’engagement du zoo pour la conservation des espèces en milieu naturel, les échanges avec d''autres parcs zoologiques, des anecdotes etc. Ces visites sont gratuites.'),
+        ('Visite en train', 'Profitez d''une visite à travers le zooparc à bord de notre petit train de caractère. Un départ a lieu toutes les heures de 10 heures à 18 heures, et la visite dure une demi-heure. Tous à bord ! Coût du billet : 5 euros.');
 INSERT INTO species (label) VALUES ('Lion'), ('Tiger'), ('Elephant');
 INSERT INTO comment (alias, content, "isDisplayed")
 VALUES ('User1', 'Great zoo!', true),

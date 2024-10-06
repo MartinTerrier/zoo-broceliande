@@ -6,4 +6,6 @@ export class ServiceDto {
 
   @IsNotEmpty()
   description: string;
+  //
+  // imageFile: Uint8Array;
 }
