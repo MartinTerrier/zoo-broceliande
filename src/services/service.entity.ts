@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ServiceImage } from './serviceImage.entity';
 
 @Entity()
 export class Service {
@@ -10,4 +17,11 @@ export class Service {
 
   @Column()
   description: string;
+
+  @JoinColumn()
+  @OneToOne(() => ServiceImage)
+  image: ServiceImage;
+
+  @Column()
+  imageId: number;
 }

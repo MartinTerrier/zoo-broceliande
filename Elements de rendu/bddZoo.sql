@@ -21,9 +21,6 @@ CREATE TABLE service_image (
     id SERIAL PRIMARY KEY NOT NULL,
     "fileName" VARCHAR NOT NULL,
     "imageFile" BYTEA NOT NULL,
-    "serviceId" INT,
-    FOREIGN KEY ("serviceId")
-        REFERENCES service(id)
 );
 
 CREATE TABLE comment (

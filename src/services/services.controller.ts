@@ -19,17 +19,12 @@ import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express, Response } from 'express';
-import { ServiceImagesService } from './serviceImages.service';
-import { extname } from 'path';
 import { Service } from './service.entity';
 import { Readable } from 'stream';
 
 @Controller('services')
 export class ServicesController {
-  constructor(
-    private servicesService: ServicesService,
-    private serviceImagesService: ServiceImagesService,
-  ) {}
+  constructor(private servicesService: ServicesService) {}
 
   @Get()
   async getAllServices(): Promise<Service[]> {
@@ -44,15 +39,11 @@ export class ServicesController {
     @Body() serviceDto: ServiceDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ): Promise<Service> {
-    const createdService = await this.servicesService.createService(serviceDto);
     if (imageFile) {
-      await this.serviceImagesService.uploadServiceImage(
-        imageFile.buffer,
-        `service${createdService.id}${extname(imageFile.originalname)}`,
-        createdService.id,
-      );
+      return await this.servicesService.createService(serviceDto, imageFile);
+    } else {
+      return await this.servicesService.createService(serviceDto);
     }
-    return createdService;
   }
 
   @Post('/:id')
@@ -64,35 +55,30 @@ export class ServicesController {
     @Body() serviceDto: ServiceDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ): Promise<Service> {
-    const updatedService = await this.servicesService.updateService(
-      id,
-      serviceDto,
-    );
     if (imageFile) {
-      await this.serviceImagesService.deleteServiceImage(id);
-      await this.serviceImagesService.uploadServiceImage(
-        imageFile.buffer,
-        `service${id}${extname(imageFile.originalname)}`,
+      return await this.servicesService.updateService(
         id,
+        serviceDto,
+        imageFile,
       );
+    } else {
+      return await this.servicesService.updateService(id, serviceDto);
     }
-    return updatedService;
   }
 
   @Delete('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   async deleteService(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    await this.serviceImagesService.deleteServiceImage(id);
     await this.servicesService.deleteService(id);
   }
 
   @Get('/image/:id')
-  async getImageByServiceId(
+  async getImage(
     @Param('id', ParseIntPipe) id: number,
     @Res({ passthrough: true }) response: Response,
   ): Promise<StreamableFile> {
-    const image = await this.serviceImagesService.getImageByServiceId(id);
+    const image = await this.servicesService.getImage(id);
 
     if (!image) {
       return;
