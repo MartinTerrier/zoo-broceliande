@@ -14,15 +14,16 @@ CREATE TABLE service (
     description VARCHAR NOT NULL,
     "imageId" INT,
     FOREIGN KEY ("imageId")
-                     REFERENCES service_image(id)
+        REFERENCES service_image(id)
 );
 
 CREATE TABLE service_image (
-                               id SERIAL PRIMARY KEY NOT NULL,
-                               "imageFile" BYTEA NOT NULL,
-                               "serviceId" INT,
-                               FOREIGN KEY ("serviceId")
-                                   REFERENCES service(id)
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
+    "serviceId" INT,
+    FOREIGN KEY ("serviceId")
+        REFERENCES service(id)
 );
 
 CREATE TABLE comment (
@@ -41,10 +42,11 @@ CREATE TABLE habitat (
 
 CREATE TABLE habitat_image (
     id SERIAL PRIMARY KEY NOT NULL,
-    "imagePath" VARCHAR NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
     "habitatId" INT,
     FOREIGN KEY ("habitatId")
-    REFERENCES habitat(id)
+        REFERENCES habitat(id)
 );
 
 CREATE TABLE species (
@@ -65,6 +67,14 @@ CREATE TABLE animal (
         REFERENCES habitat(id)
 );
 
+CREATE TABLE animal_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
+    "animalId" INT,
+    FOREIGN KEY ("animalId")
+        REFERENCES animal(id)
+);
 
 CREATE TABLE meal (
     id SERIAL PRIMARY KEY NOT NULL,

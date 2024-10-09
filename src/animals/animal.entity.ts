@@ -10,14 +10,20 @@ export class Animal {
   @Column()
   name: string;
 
-  @ManyToOne(() => Species, (species) => species.id)
-  species: number;
-
   @Column()
   status: string;
 
+  @ManyToOne(() => Species, (species) => species.id)
+  species: Species;
+
+  @Column()
+  speciesId: number;
+
   @ManyToOne(() => Habitat, (habitat) => habitat.id)
-  habitat: number;
+  habitat: Habitat;
+
+  @Column()
+  habitatId: number;
 
   @Column()
   views: number;

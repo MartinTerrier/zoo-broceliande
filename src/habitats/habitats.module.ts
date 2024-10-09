@@ -6,10 +6,11 @@ import { Habitat } from './habitat.entity';
 import { HabitatImage } from './habitatImage.entity';
 import { HabitatsRepository } from './habitats.repository';
 import { AuthModule } from '../auth/auth.module';
+import { HabitatImagesService } from './habitatImages.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Habitat, HabitatImage])],
   controllers: [HabitatsController],
-  providers: [HabitatsService, HabitatsRepository, AuthModule],
+  providers: [HabitatsService, HabitatImagesService, HabitatsRepository],
 })
 export class HabitatsModule {}

@@ -1,20 +1,20 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Habitat } from './habitat.entity';
+import { Animal } from './animal.entity';
 
 @Entity()
-export class HabitatImage {
+export class AnimalImage {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @OneToOne(() => Habitat, (habitat) => habitat.id)
-  habitat: Habitat;
-
-  @Column()
-  habitatId: number;
 
   @Column()
   fileName: string;
 
   @Column({ type: 'bytea' })
   imageFile: Uint8Array;
+
+  @OneToOne(() => Animal, (animal) => animal.id)
+  animal: Animal;
+
+  @Column()
+  animalId: number;
 }

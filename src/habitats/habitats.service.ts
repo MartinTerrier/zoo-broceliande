@@ -10,6 +10,10 @@ export class HabitatsService {
     return await this.habitatsRepository.find();
   }
 
+  async getHabitatById(id: number) {
+    return await this.habitatsRepository.findOneBy({ id });
+  }
+
   async createHabitat(habitatDto: HabitatDto) {
     return await this.habitatsRepository.createHabitat(habitatDto);
   }

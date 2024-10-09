@@ -1,9 +1,12 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class ServiceDto {
+export class AnimalDto {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  description: string;
+  speciesId: number;
+
+  @IsNotEmpty()
+  habitatId: number;
 }
