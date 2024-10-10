@@ -36,7 +36,7 @@ export class ServicesService {
     if (imageFile) {
       newService.image = await this.uploadServiceImage(
         imageFile.buffer,
-        `service${newService.id}${extname(imageFile.originalname)}`,
+        `${newService.name}${extname(imageFile.originalname)}`,
       );
     }
     await this.servicesRepository.save(newService);
@@ -48,7 +48,6 @@ export class ServicesService {
     if (!serviceToDelete) {
       throw new NotFoundException(`Service with id ${id} not found.`);
     }
-    console.log(serviceToDelete);
     await this.servicesRepository.remove(serviceToDelete);
     await this.serviceImagesRepository.delete({ id: serviceToDelete.imageId });
   }
@@ -66,7 +65,7 @@ export class ServicesService {
     if (imageFile) {
       serviceToUpdate.image = await this.uploadServiceImage(
         imageFile.buffer,
-        `service${serviceToUpdate.id}${extname(imageFile.originalname)}`,
+        `${serviceToUpdate.name}${extname(imageFile.originalname)}`,
       );
     }
 
