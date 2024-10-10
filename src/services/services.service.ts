@@ -17,7 +17,10 @@ export class ServicesService {
   ) {}
 
   async getAllServices(): Promise<Service[]> {
-    return await this.servicesRepository.find();
+    return await this.servicesRepository
+      .createQueryBuilder('service')
+      .orderBy('service.id')
+      .getMany();
   }
 
   async getImage(id: number) {
