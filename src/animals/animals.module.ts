@@ -6,14 +6,24 @@ import { Animal } from './animal.entity';
 import { Species } from './species.entity';
 import { Meal } from './meal.entity';
 import { VetReport } from './vetReport.entity';
-import { AnimalImagesService } from './animalImages.service';
 import { AnimalImage } from './animalImage.entity';
+import { HabitatsService } from '../habitats/habitats.service';
+import { Habitat } from '../habitats/habitat.entity';
+import { HabitatImage } from '../habitats/habitatImage.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Animal, AnimalImage, Species, Meal, VetReport]),
+    TypeOrmModule.forFeature([
+      Animal,
+      AnimalImage,
+      Habitat,
+      HabitatImage,
+      Species,
+      Meal,
+      VetReport,
+    ]),
   ],
   controllers: [AnimalsController],
-  providers: [AnimalsService, AnimalImagesService],
+  providers: [AnimalsService, HabitatsService],
 })
 export class AnimalsModule {}

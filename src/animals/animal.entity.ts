@@ -1,6 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Habitat } from '../habitats/habitat.entity';
 import { Species } from './species.entity';
+import { AnimalImage } from './animalImage.entity';
 
 @Entity()
 export class Animal {
@@ -13,18 +21,21 @@ export class Animal {
   @Column()
   status: string;
 
+  @Column()
+  views: number;
+
+  @JoinColumn()
   @ManyToOne(() => Species, (species) => species.id)
   species: Species;
 
-  @Column()
-  speciesId: number;
-
+  @JoinColumn()
   @ManyToOne(() => Habitat, (habitat) => habitat.id)
   habitat: Habitat;
 
-  @Column()
-  habitatId: number;
+  @JoinColumn()
+  @OneToOne(() => AnimalImage, (animalImage) => animalImage.id)
+  image: AnimalImage;
 
   @Column()
-  views: number;
+  imageId: number;
 }

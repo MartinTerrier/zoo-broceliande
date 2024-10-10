@@ -7,25 +7,24 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Res,
+  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AnimalsService } from './animals.service';
-import { AnimalImagesService } from './animalImages.service';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AnimalDto } from './dto/animal.dto';
-import { extname } from 'path';
+import { Response } from 'express';
+import { Readable } from 'stream';
 
 @Controller('animals')
 export class AnimalsController {
-  constructor(
-    private animalsService: AnimalsService,
-    private animalImagesService: AnimalImagesService,
-  ) {}
+  constructor(private animalsService: AnimalsService) {}
 
   @Get()
   async getAllAnimals() {
@@ -45,15 +44,11 @@ export class AnimalsController {
     @Body() animalDto: AnimalDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ) {
-    const newAnimal = await this.animalsService.createAnimal(animalDto);
     if (imageFile) {
-      await this.animalImagesService.uploadAnimalImage(
-        imageFile.buffer,
-        `animal${newAnimal.id}${extname(imageFile.originalname)}`,
-        newAnimal.id,
-      );
+      return await this.animalsService.createAnimal(animalDto, imageFile);
+    } else {
+      return await this.animalsService.createAnimal(animalDto);
     }
-    return newAnimal;
   }
 
   @Post('/:id')
@@ -65,23 +60,17 @@ export class AnimalsController {
     @Body() animalDto: AnimalDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ) {
-    const updatedAnimal = await this.animalsService.updateAnimal(id, animalDto);
     if (imageFile) {
-      await this.animalImagesService.deleteAnimalImage(id);
-      await this.animalImagesService.uploadAnimalImage(
-        imageFile.buffer,
-        `animal${updatedAnimal.id}${extname(imageFile.originalname)}`,
-        updatedAnimal.id,
-      );
+      return await this.animalsService.updateAnimal(id, animalDto, imageFile);
+    } else {
+      return await this.animalsService.updateAnimal(id, animalDto);
     }
-    return updatedAnimal;
   }
 
   @Delete('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   async deleteAnimal(@Param('id', ParseIntPipe) id: number) {
-    await this.animalImagesService.deleteAnimalImage(id);
     await this.animalsService.deleteAnimal(id);
   }
 
@@ -100,5 +89,24 @@ export class AnimalsController {
   @Roles(Role.Admin)
   async createSpecies(@Body() label: string) {
     return await this.animalsService.createSpecies(label);
+  }
+
+  @Get('/image/:id')
+  async getImage(
+    @Param('id', ParseIntPipe) id: number,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<StreamableFile> {
+    const image = await this.animalsService.getImage(id);
+
+    if (!image) return;
+
+    const stream = Readable.from(image.imageFile);
+
+    response.set({
+      'Content-Disposition': `inline; filename = "${image.fileName}"`,
+      'Content-Type': image,
+    });
+
+    return new StreamableFile(stream);
   }
 }
