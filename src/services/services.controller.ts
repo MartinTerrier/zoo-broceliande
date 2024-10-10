@@ -80,9 +80,7 @@ export class ServicesController {
   ): Promise<StreamableFile> {
     const image = await this.servicesService.getImage(id);
 
-    if (!image) {
-      return;
-    }
+    if (!image) return;
 
     const stream = Readable.from(image.imageFile);
 

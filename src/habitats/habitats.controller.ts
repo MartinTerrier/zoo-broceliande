@@ -19,17 +19,12 @@ import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { HabitatDto } from './dto/habitat.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { HabitatImagesService } from './habitatImages.service';
-import { extname } from 'path';
 import { Response } from 'express';
 import { Readable } from 'stream';
 
 @Controller('habitats')
 export class HabitatsController {
-  constructor(
-    private habitatsService: HabitatsService,
-    private habitatImagesService: HabitatImagesService,
-  ) {}
+  constructor(private habitatsService: HabitatsService) {}
 
   @Get()
   async getHabitats() {
@@ -49,15 +44,11 @@ export class HabitatsController {
     @Body() habitatDto: HabitatDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ) {
-    const newHabitat = await this.habitatsService.createHabitat(habitatDto);
     if (imageFile) {
-      await this.habitatImagesService.uploadHabitatImage(
-        imageFile.buffer,
-        `habitat${newHabitat.id}${extname(imageFile.originalname)}`,
-        newHabitat.id,
-      );
+      return await this.habitatsService.createHabitat(habitatDto, imageFile);
+    } else {
+      return await this.habitatsService.createHabitat(habitatDto);
     }
-    return newHabitat;
   }
 
   @Patch('/update/:id')
@@ -69,19 +60,15 @@ export class HabitatsController {
     @Body() habitatDto: HabitatDto,
     @UploadedFile() imageFile: Express.Multer.File,
   ) {
-    const updatedHabitat = await this.habitatsService.updateHabitat(
-      id,
-      habitatDto,
-    );
     if (imageFile) {
-      await this.habitatImagesService.deleteHabitatImage(id);
-      await this.habitatImagesService.uploadHabitatImage(
-        imageFile.buffer,
-        `habitat${updatedHabitat.id}${extname(imageFile.originalname)}`,
+      return await this.habitatsService.updateHabitat(
         id,
+        habitatDto,
+        imageFile,
       );
+    } else {
+      return await this.habitatsService.updateHabitat(id, habitatDto);
     }
-    return updatedHabitat;
   }
 
   @Patch('/comment/:id')
@@ -98,17 +85,15 @@ export class HabitatsController {
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   async deleteHabitat(@Param('id', ParseIntPipe) id: number) {
-    await this.habitatImagesService.deleteHabitatImage(id);
     await this.habitatsService.deleteHabitat(id);
   }
 
   @Get('/image/:id')
-  async getImageByHabitatId(
-    @Param('id', ParseIntPipe) habitatId: number,
+  async getImage(
+    @Param('id', ParseIntPipe) id: number,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const image =
-      await this.habitatImagesService.getImageByHabitatId(habitatId);
+    const image = await this.habitatsService.getImage(id);
     if (!image) return;
 
     const stream = Readable.from(image.imageFile);

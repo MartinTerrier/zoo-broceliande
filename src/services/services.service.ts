@@ -21,7 +21,7 @@ export class ServicesService {
   }
 
   async getImage(id: number) {
-    const image = this.serviceImagesRepository.findOneBy({ id });
+    const image = await this.serviceImagesRepository.findOneBy({ id });
     if (!image) {
       throw new NotFoundException(`No serviceImage found with id ${id}.`);
     }
@@ -62,22 +62,20 @@ export class ServicesService {
       throw new NotFoundException(`Service with id ${id} not found.`);
     }
     const priorImageId = serviceToUpdate.imageId;
+
     if (imageFile) {
       serviceToUpdate.image = await this.uploadServiceImage(
         imageFile.buffer,
-        `${serviceToUpdate.name}${extname(imageFile.originalname)}`,
+        `${serviceDto.name}${extname(imageFile.originalname)}`,
       );
     }
 
-    const { name, description } = serviceDto;
-    serviceToUpdate.name = name;
-    serviceToUpdate.description = description;
-
+    serviceToUpdate.name = serviceDto.name;
+    serviceToUpdate.description = serviceDto.description;
     const updatedService = await this.servicesRepository.save(serviceToUpdate);
-    if (priorImageId) {
-      await this.serviceImagesRepository.delete({
-        id: priorImageId,
-      });
+
+    if (priorImageId && imageFile) {
+      await this.serviceImagesRepository.delete({ id: priorImageId });
     }
     return updatedService;
   }

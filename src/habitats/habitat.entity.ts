@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { HabitatImage } from './habitatImage.entity';
 
 @Entity()
 export class Habitat {
@@ -13,4 +20,11 @@ export class Habitat {
 
   @Column({ nullable: true })
   comment: string;
+
+  @JoinColumn()
+  @OneToOne(() => HabitatImage, (habitatImage) => habitatImage.id)
+  image: HabitatImage;
+
+  @Column()
+  imageId: number;
 }
