@@ -56,6 +56,7 @@ export class AnimalsService {
 
   async createAnimal(animalDto: AnimalDto, imageFile?: Express.Multer.File) {
     const newAnimal = this.animalsRepository.create(animalDto);
+    newAnimal.status = 'En bonne santé';
 
     if (imageFile) {
       newAnimal.image = await this.uploadAnimalImage(

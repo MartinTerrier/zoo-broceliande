@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Res,
   StreamableFile,
@@ -46,7 +47,7 @@ export class ServicesController {
     }
   }
 
-  @Post('/:id')
+  @Patch('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.Employee, Role.Admin)
   @UseInterceptors(FileInterceptor('imageFile'))

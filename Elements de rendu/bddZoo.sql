@@ -8,6 +8,12 @@ CREATE TABLE "user" (
     role VARCHAR(10) NOT NULL
 );
 
+CREATE TABLE service_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
+);
+
 CREATE TABLE service (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
@@ -17,12 +23,6 @@ CREATE TABLE service (
         REFERENCES service_image(id)
 );
 
-CREATE TABLE service_image (
-    id SERIAL PRIMARY KEY NOT NULL,
-    "fileName" VARCHAR NOT NULL,
-    "imageFile" BYTEA NOT NULL,
-);
-
 CREATE TABLE comment (
     id SERIAL PRIMARY KEY NOT NULL,
     alias VARCHAR(50) NOT NULL,
@@ -30,25 +30,31 @@ CREATE TABLE comment (
     "isDisplayed" BOOLEAN NOT NULL
 );
 
+CREATE TABLE habitat_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL
+);
+
 CREATE TABLE habitat (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    comment VARCHAR
-);
-
-CREATE TABLE habitat_image (
-    id SERIAL PRIMARY KEY NOT NULL,
-    "fileName" VARCHAR NOT NULL,
-    "imageFile" BYTEA NOT NULL,
-    "habitatId" INT,
-    FOREIGN KEY ("habitatId")
-        REFERENCES habitat(id)
+    comment VARCHAR,
+    "imageId" INT,
+    FOREIGN KEY ("imageId")
+        REFERENCES habitat_image(id)
 );
 
 CREATE TABLE species (
     id SERIAL PRIMARY KEY NOT NULL,
     label VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE animal_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
 );
 
 CREATE TABLE animal (
@@ -58,19 +64,13 @@ CREATE TABLE animal (
     views INT NOT NULL,
     "speciesId" INT,
     "habitatId" INT,
+    "imageId" INT,
+    FOREIGN KEY ("imageId")
+        REFERENCES animal_image(id),
     FOREIGN KEY ("speciesId")
         REFERENCES species(id),
     FOREIGN KEY ("habitatId")
         REFERENCES habitat(id)
-);
-
-CREATE TABLE animal_image (
-    id SERIAL PRIMARY KEY NOT NULL,
-    "fileName" VARCHAR NOT NULL,
-    "imageFile" BYTEA NOT NULL,
-    "animalId" INT,
-    FOREIGN KEY ("animalId")
-        REFERENCES animal(id)
 );
 
 CREATE TABLE meal (
@@ -109,8 +109,9 @@ INSERT INTO comment (alias, content, "isDisplayed")
 VALUES ('User1', 'Great zoo!', true),
        ('User2', 'Amazing animals!', false);
 INSERT INTO habitat (name, description, comment)
-VALUES ('Savanna', 'Large grasslands', 'Suitable for lions'),
-       ('Rainforest', 'Dense tropical forests', '');
+VALUES ('La savane', 'Large grasslands', 'Suitable for lions'),
+       ('La jungle', 'Dense tropical forests', ''),
+       ('Le marais', '', '');
 INSERT INTO animal (name, status, views, "speciesId", "habitatId")
 VALUES ('Alex', 'healthy', 234, 2, 1),
        ('Hati', 'sick', 152, 3, 2);
