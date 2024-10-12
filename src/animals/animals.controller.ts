@@ -84,6 +84,11 @@ export class AnimalsController {
     return await this.animalsService.updateAnimalStatus(id, status);
   }
 
+  @Get('/species')
+  async getAllSpecies() {
+    return await this.animalsService.getAllspecies();
+  }
+
   @Post('/species')
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)

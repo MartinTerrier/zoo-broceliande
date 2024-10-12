@@ -104,7 +104,7 @@ VALUES ('admin@example.com', '$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLN
 INSERT INTO service (name, description)
 VALUES ('Visite guidée du parc', 'Venez passer un moment exceptionnel au zooparc de Brocéliande ! Apprenez comment fonctionne le parc, ses projets, la gestion des animaux au quotidien. Au programme également, l’engagement du zoo pour la conservation des espèces en milieu naturel, les échanges avec d''autres parcs zoologiques, des anecdotes etc. Ces visites sont gratuites.'),
         ('Visite en train', 'Profitez d''une visite à travers le zooparc à bord de notre petit train de caractère. Un départ a lieu toutes les heures de 10 heures à 18 heures, et la visite dure une demi-heure. Tous à bord ! Coût du billet : 5 euros.');
-INSERT INTO species (label) VALUES ('Lion'), ('Tiger'), ('Elephant');
+INSERT INTO species (label) VALUES ('Lion'), ('Tigre'), ('Eléphant');
 INSERT INTO comment (alias, content, "isDisplayed")
 VALUES ('User1', 'Great zoo!', true),
        ('User2', 'Amazing animals!', false);
@@ -113,8 +113,8 @@ VALUES ('La savane', 'Large grasslands', 'Suitable for lions'),
        ('La jungle', 'Dense tropical forests', ''),
        ('Le marais', '', '');
 INSERT INTO animal (name, status, views, "speciesId", "habitatId")
-VALUES ('Alex', 'healthy', 234, 2, 1),
-       ('Hati', 'sick', 152, 3, 2);
+VALUES ('Alex', 'En bonne santé', 234, 2, 1),
+       ('Hati', 'Malade', 152, 3, 2);
 INSERT INTO meal (food, quantity, "animalId", "employeeUserName")
 VALUES ('meat', '5 kg', 1, 'jane@example.com'),
        ('leaves', '10 kg', 2, 'jane@example.com');

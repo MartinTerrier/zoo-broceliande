@@ -54,9 +54,21 @@ export class AnimalsService {
     return image;
   }
 
+  async getAllspecies() {
+    return await this.speciesRepository.find();
+  }
+
   async createAnimal(animalDto: AnimalDto, imageFile?: Express.Multer.File) {
-    const newAnimal = this.animalsRepository.create(animalDto);
+    const { name, speciesId, habitatId } = animalDto;
+    const species = await this.speciesRepository.findOneBy({ id: speciesId });
+    const habitat = await this.habitatsService.getHabitatById(habitatId);
+    const newAnimal = this.animalsRepository.create({
+      name,
+      species,
+      habitat,
+    });
     newAnimal.status = 'En bonne santé';
+    newAnimal.views = 0;
 
     if (imageFile) {
       newAnimal.image = await this.uploadAnimalImage(
