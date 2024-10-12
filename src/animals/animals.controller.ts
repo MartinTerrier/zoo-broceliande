@@ -36,6 +36,16 @@ export class AnimalsController {
     return await this.animalsService.getAnimalsByHabitat(habitatId);
   }
 
+  @Get('/species')
+  async getAllSpecies() {
+    return await this.animalsService.getAllSpecies();
+  }
+
+  @Get('/:id')
+  async getAnimal(@Param('id', ParseIntPipe) id: number) {
+    return await this.animalsService.getAnimal(id);
+  }
+
   @Post()
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
@@ -51,7 +61,7 @@ export class AnimalsController {
     }
   }
 
-  @Post('/:id')
+  @Patch('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(FileInterceptor('imageFile'))
@@ -82,11 +92,6 @@ export class AnimalsController {
     @Body() status: string,
   ) {
     return await this.animalsService.updateAnimalStatus(id, status);
-  }
-
-  @Get('/species')
-  async getAllSpecies() {
-    return await this.animalsService.getAllspecies();
   }
 
   @Post('/species')

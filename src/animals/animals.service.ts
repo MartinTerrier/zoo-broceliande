@@ -25,6 +25,8 @@ export class AnimalsService {
       .createQueryBuilder('animal')
       .leftJoinAndSelect('animal.species', 'species')
       .leftJoinAndSelect('animal.habitat', 'habitat')
+      .orderBy('habitat.id')
+      .addOrderBy('species.id')
       .getMany();
   }
 
@@ -33,6 +35,7 @@ export class AnimalsService {
       .createQueryBuilder('animal')
       .leftJoinAndSelect('animal.species', 'species')
       .leftJoinAndSelect('animal.habitat', 'habitat')
+      .orderBy('species.id')
       .where('habitat.id = :habitatId', { habitatId })
       .getMany();
   }
@@ -54,7 +57,7 @@ export class AnimalsService {
     return image;
   }
 
-  async getAllspecies() {
+  async getAllSpecies() {
     return await this.speciesRepository.find();
   }
 
