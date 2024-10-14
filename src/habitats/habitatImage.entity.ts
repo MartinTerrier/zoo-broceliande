@@ -1,14 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Habitat } from './habitat.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class HabitatImage {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Habitat, (habitat) => habitat.id)
-  habitatId: number;
-
   @Column()
-  imagePath: string;
+  fileName: string;
+
+  @Column({ type: 'bytea' })
+  imageFile: Uint8Array;
 }

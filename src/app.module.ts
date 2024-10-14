@@ -19,7 +19,7 @@ import { UsersRepository } from './auth/users.repository';
       type: 'postgres',
       // ssl: true,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     CommentsModule,
     AuthModule,

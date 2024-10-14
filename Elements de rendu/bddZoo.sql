@@ -8,21 +8,19 @@ CREATE TABLE "user" (
     role VARCHAR(10) NOT NULL
 );
 
+CREATE TABLE service_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
+);
+
 CREATE TABLE service (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
     description VARCHAR NOT NULL,
     "imageId" INT,
     FOREIGN KEY ("imageId")
-                     REFERENCES service_image(id)
-);
-
-CREATE TABLE service_image (
-                               id SERIAL PRIMARY KEY NOT NULL,
-                               "imageFile" BYTEA NOT NULL,
-                               "serviceId" INT,
-                               FOREIGN KEY ("serviceId")
-                                   REFERENCES service(id)
+        REFERENCES service_image(id)
 );
 
 CREATE TABLE comment (
@@ -32,19 +30,19 @@ CREATE TABLE comment (
     "isDisplayed" BOOLEAN NOT NULL
 );
 
+CREATE TABLE habitat_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL
+);
+
 CREATE TABLE habitat (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    comment VARCHAR
-);
-
-CREATE TABLE habitat_image (
-    id SERIAL PRIMARY KEY NOT NULL,
-    "imagePath" VARCHAR NOT NULL,
-    "habitatId" INT,
-    FOREIGN KEY ("habitatId")
-    REFERENCES habitat(id)
+    "imageId" INT,
+    FOREIGN KEY ("imageId")
+        REFERENCES habitat_image(id)
 );
 
 CREATE TABLE species (
@@ -52,19 +50,26 @@ CREATE TABLE species (
     label VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE animal_image (
+    id SERIAL PRIMARY KEY NOT NULL,
+    "fileName" VARCHAR NOT NULL,
+    "imageFile" BYTEA NOT NULL,
+);
+
 CREATE TABLE animal (
     id SERIAL PRIMARY KEY NOT NULL ,
     name VARCHAR(50) NOT NULL,
     status VARCHAR(50) NOT NULL,
-    views INT NOT NULL,
     "speciesId" INT,
     "habitatId" INT,
+    "imageId" INT,
+    FOREIGN KEY ("imageId")
+        REFERENCES animal_image(id),
     FOREIGN KEY ("speciesId")
         REFERENCES species(id),
     FOREIGN KEY ("habitatId")
         REFERENCES habitat(id)
 );
-
 
 CREATE TABLE meal (
     id SERIAL PRIMARY KEY NOT NULL,
@@ -82,6 +87,8 @@ CREATE TABLE vet_report (
     id SERIAL PRIMARY KEY NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT NOT NULL,
+    food VARCHAR(50) NOT NULL,
+    quantity VARCHAR(50) NOT NULL,
     "animalId" INT,
     "vetUserName" VARCHAR(50),
     FOREIGN KEY ("animalId")
@@ -97,19 +104,20 @@ VALUES ('admin@example.com', '$2b$10$JxNxhrtSq.tzk53VF7jZoekgaKuHsx3L/RilYJOooLN
 INSERT INTO service (name, description)
 VALUES ('Visite guidée du parc', 'Venez passer un moment exceptionnel au zooparc de Brocéliande ! Apprenez comment fonctionne le parc, ses projets, la gestion des animaux au quotidien. Au programme également, l’engagement du zoo pour la conservation des espèces en milieu naturel, les échanges avec d''autres parcs zoologiques, des anecdotes etc. Ces visites sont gratuites.'),
         ('Visite en train', 'Profitez d''une visite à travers le zooparc à bord de notre petit train de caractère. Un départ a lieu toutes les heures de 10 heures à 18 heures, et la visite dure une demi-heure. Tous à bord ! Coût du billet : 5 euros.');
-INSERT INTO species (label) VALUES ('Lion'), ('Tiger'), ('Elephant');
+INSERT INTO species (label) VALUES ('Lion'), ('Tigre'), ('Eléphant');
 INSERT INTO comment (alias, content, "isDisplayed")
 VALUES ('User1', 'Great zoo!', true),
        ('User2', 'Amazing animals!', false);
-INSERT INTO habitat (name, description, comment)
-VALUES ('Savanna', 'Large grasslands', 'Suitable for lions'),
-       ('Rainforest', 'Dense tropical forests', '');
-INSERT INTO animal (name, status, views, "speciesId", "habitatId")
-VALUES ('Alex', 'healthy', 234, 2, 1),
-       ('Hati', 'sick', 152, 3, 2);
+INSERT INTO habitat (name, description)
+VALUES ('La savane', 'La savane est un type de paysage qui est composé surtout d''herbes.'),
+       ('La jungle', 'La jungle est la forme de végétation naturelle des régions équatoriales de basse altitude.'),
+       ('Le marais', 'Un marais est un terrain qui reste très humide la plupart du temps, souvent envahi de nappes d''eau stagnante peu profonde.');
+INSERT INTO animal (name, status, "speciesId", "habitatId")
+VALUES ('Alex', 'En bonne santé', 2, 1),
+       ('Hathi', 'Malade', 152, 2);
 INSERT INTO meal (food, quantity, "animalId", "employeeUserName")
-VALUES ('meat', '5 kg', 1, 'jane@example.com'),
-       ('leaves', '10 kg', 2, 'jane@example.com');
-INSERT INTO vet_report (content, "animalId", "vetUserName")
-VALUES ('Monthly checkup', 1, 'john@example.com'),
-       ('Emergency surgery', 2, 'john@example.com');
+VALUES ('viande', '5 kg', 1, 'jane@example.com'),
+       ('feuilles', '10 kg', 2, 'jane@example.com');
+INSERT INTO vet_report (content, food, quantity, "animalId", "vetUserName")
+VALUES ('Visite mensuelle de routine', 'viande', '10 kg' 1, 'john@example.com'),
+       ('Opération d''urgence', 'feuilles', '50 kg', 2, 'john@example.com');
