@@ -5,10 +5,10 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   alias: string;
 
-  @Column()
+  @Column('text')
   content: string;
 
   @Column()

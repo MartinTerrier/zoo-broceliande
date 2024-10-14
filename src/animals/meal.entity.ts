@@ -7,15 +7,18 @@ export class Meal {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   food: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   quantity: string;
 
-  @ManyToOne(() => Animal, (animal) => animal.id)
-  animalId: number;
+  @ManyToOne(() => Animal, (animal) => animal.meal, { onDelete: 'CASCADE' })
+  animal: Animal;
 
   @ManyToOne(() => User, (user) => user.userName)
-  employee: string;
+  employee: User;
+
+  @Column()
+  date: Date;
 }

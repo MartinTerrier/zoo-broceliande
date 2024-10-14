@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDataDto } from './dto/userData.dto';
-import { SignInDto } from './dto/signInDto';
+import { SignInDto } from './dto/signIn.dto';
 import { RolesGuard } from './roles.guard';
 import { Roles } from './roles.decorator';
 import { Role } from './role.enum';

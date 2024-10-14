@@ -1,10 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Species {
+export class AnimalImage {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 100 })
-  label: string;
+  @Column()
+  fileName: string;
+
+  @Column({ type: 'bytea' })
+  imageFile: Uint8Array;
 }

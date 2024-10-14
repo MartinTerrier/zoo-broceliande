@@ -6,7 +6,6 @@ import {
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UserDataDto } from './dto/userData.dto';
-import { generate } from 'generate-password';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class UsersRepository extends Repository<User> {
   }
 
   async createUser(userDataDto: UserDataDto) {
-    const { userName, name, firstName, role } = userDataDto;
+    const { userName, name, firstName, role, password } = userDataDto;
 
     const found = await this.findOneBy({ userName });
     if (found) {
@@ -25,11 +24,11 @@ export class UsersRepository extends Repository<User> {
       );
     }
 
-    const password = generate({
-      length: 10,
-      numbers: true,
-      uppercase: true,
-    });
+    // const password = generate({
+    //   length: 10,
+    //   numbers: true,
+    //   uppercase: true,
+    // });
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -46,8 +45,12 @@ export class UsersRepository extends Repository<User> {
     return [newUser, password];
   }
 
+  async getUser(userName: string) {
+    return await this.findOneBy({ userName });
+  }
+
   async deleteUser(userName: string) {
-    const found = await this.findOneBy({ userName });
+    const found = await this.getUser(userName);
     if (!found) {
       throw new NotFoundException(`No user found for email ${userName}.`);
     }

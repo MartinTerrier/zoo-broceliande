@@ -1,23 +1,9 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Service } from './service.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ServiceImage {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @JoinColumn({ name: 'serviceId' })
-  @OneToOne(() => Service, (service) => service.id)
-  service: Service;
-
-  @Column()
-  serviceId: number;
 
   @Column()
   fileName: string;

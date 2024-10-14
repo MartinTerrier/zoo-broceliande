@@ -4,19 +4,19 @@ import { Role } from './role.enum';
 
 @Entity()
 export class User {
-  @PrimaryColumn()
+  @PrimaryColumn('varchar', { length: 50 })
   @IsEmail()
   userName: string;
 
-  @Column()
+  @Column('varchar', { length: 100 })
   password: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   firstName: string;
 
-  @Column()
+  @Column('varchar', { length: 10 })
   role: Role;
 }

@@ -1,16 +1,27 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { HabitatImage } from './habitatImage.entity';
 
 @Entity()
 export class Habitat {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
-  @Column()
+  @Column('text')
   description: string;
 
-  @Column({ nullable: true })
-  comment: string;
+  @JoinColumn()
+  @OneToOne(() => HabitatImage, (habitatImage) => habitatImage.id)
+  image: HabitatImage;
+
+  @Column()
+  imageId: number;
 }
