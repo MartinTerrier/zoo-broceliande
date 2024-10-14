@@ -3,26 +3,26 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Habitat } from '../habitats/habitat.entity';
 import { Species } from './species.entity';
 import { AnimalImage } from './animalImage.entity';
+import { Meal } from './meal.entity';
+import { VetReport } from './vetReport.entity';
 
 @Entity()
 export class Animal {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   status: string;
-
-  @Column()
-  views: number;
 
   @JoinColumn()
   @ManyToOne(() => Species, (species) => species.id)
@@ -35,6 +35,16 @@ export class Animal {
   @JoinColumn()
   @OneToOne(() => AnimalImage, (animalImage) => animalImage.id)
   image: AnimalImage;
+
+  @OneToMany(() => Meal, (meal) => meal.animal, {
+    cascade: ['update', 'remove', 'insert'],
+  })
+  meal: Meal[];
+
+  @OneToMany(() => VetReport, (vetReport) => vetReport.animal, {
+    cascade: ['update', 'remove', 'insert'],
+  })
+  vetReport: VetReport[];
 
   @Column()
   imageId: number;

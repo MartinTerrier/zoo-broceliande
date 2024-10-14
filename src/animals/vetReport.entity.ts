@@ -16,12 +16,18 @@ export class VetReport {
   @CreateDateColumn()
   date: Date;
 
-  @Column()
+  @Column('text')
   content: string;
 
-  @ManyToOne(() => Animal, (animal) => animal.id)
-  animalId: number;
+  @Column('varchar', { length: 50 })
+  food: string;
+
+  @Column('varchar', { length: 50 })
+  quantity: string;
+
+  @ManyToOne(() => Animal, (animal) => animal.id, { onDelete: 'CASCADE' })
+  animal: Animal;
 
   @ManyToOne(() => User, (user) => user.userName)
-  vet: string;
+  vet: User;
 }

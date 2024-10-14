@@ -82,18 +82,6 @@ export class HabitatsService {
     return updatedHabitat;
   }
 
-  async commentHabitat(id: number, comment: string) {
-    const habitatToUpdate = await this.habitatsRepository.findOneBy({ id });
-
-    if (!habitatToUpdate) {
-      throw new NotFoundException(`Habitat with id ${id} not found.`);
-    }
-
-    habitatToUpdate.comment = comment;
-    await this.habitatsRepository.save(habitatToUpdate);
-    return habitatToUpdate;
-  }
-
   private async uploadHabitatImage(dataBuffer: Buffer, fileName: string) {
     const newImage = this.habitatImagesRepository.create({
       fileName,

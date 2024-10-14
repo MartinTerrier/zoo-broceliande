@@ -22,6 +22,7 @@ import { AnimalDto } from './dto/animal.dto';
 import { Response } from 'express';
 import { Readable } from 'stream';
 import { MealDto } from './dto/meal.dto';
+import { VetReportDto } from './dto/vetReport.dto';
 
 @Controller('animals')
 export class AnimalsController {
@@ -112,6 +113,13 @@ export class AnimalsController {
   @Roles(Role.Employee)
   async createMeal(@Body() mealDto: MealDto) {
     return await this.animalsService.createMeal(mealDto);
+  }
+
+  @Post('/report')
+  @UseGuards(RolesGuard)
+  @Roles(Role.Vet)
+  async createVetReport(@Body() vetReportDto: VetReportDto) {
+    return await this.animalsService.createVetReport(vetReportDto);
   }
 
   @Get('/image/:id')

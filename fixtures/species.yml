@@ -1,6 +1,0 @@
-entity: Species
-items:
-  species_feline:
-    label: "Feline"
-  species_mammal:
-    label: "Mammal"

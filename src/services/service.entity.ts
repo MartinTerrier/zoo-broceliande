@@ -12,7 +12,7 @@ export class Service {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
   @Column()

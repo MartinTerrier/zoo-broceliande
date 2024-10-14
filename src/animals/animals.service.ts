@@ -10,7 +10,8 @@ import { HabitatsService } from '../habitats/habitats.service';
 import { Meal } from './meal.entity';
 import { MealDto } from './dto/meal.dto';
 import { UsersRepository } from '../auth/users.repository';
-import { User } from '../auth/user.entity';
+import { VetReport } from './vetReport.entity';
+import { VetReportDto } from './dto/vetReport.dto';
 
 @Injectable()
 export class AnimalsService {
@@ -23,6 +24,8 @@ export class AnimalsService {
     private speciesRepository: Repository<Species>,
     @InjectRepository(Meal)
     private mealsRepository: Repository<Meal>,
+    @InjectRepository(VetReport)
+    private vetReportsRepository: Repository<VetReport>,
     private readonly usersRepository: UsersRepository,
     private readonly habitatsService: HabitatsService,
   ) {}
@@ -88,7 +91,6 @@ export class AnimalsService {
       habitat,
     });
     newAnimal.status = 'En bonne santé';
-    newAnimal.views = 0;
 
     if (imageFile) {
       newAnimal.image = await this.uploadAnimalImage(
@@ -175,6 +177,27 @@ export class AnimalsService {
 
     await this.mealsRepository.save(newMeal);
     return newMeal;
+  }
+
+  async createVetReport(vetReportDto: VetReportDto) {
+    const { animalId, userName, status, content, food, quantity, date } =
+      vetReportDto;
+    const vet = await this.usersRepository.getUser(userName);
+    const animal = await this.getAnimal(animalId);
+    animal.status = status;
+    await this.animalsRepository.save(animal);
+
+    const newReport = this.vetReportsRepository.create({
+      vet,
+      animal,
+      content,
+      food,
+      quantity,
+      date,
+    });
+
+    await this.vetReportsRepository.save(newReport);
+    return newReport;
   }
 
   private async uploadAnimalImage(dataBuffer: Buffer, fileName: string) {

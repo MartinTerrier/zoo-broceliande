@@ -71,16 +71,6 @@ export class HabitatsController {
     }
   }
 
-  @Patch('/comment/:id')
-  @UseGuards(RolesGuard)
-  @Roles(Role.Vet)
-  async commentHabitat(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() comment: string,
-  ) {
-    return await this.habitatsService.commentHabitat(id, comment);
-  }
-
   @Delete('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)

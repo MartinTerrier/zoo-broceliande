@@ -5,6 +5,6 @@ export class Species {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 100 })
   label: string;
 }

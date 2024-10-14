@@ -12,14 +12,11 @@ export class Habitat {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
-  @Column()
+  @Column('text')
   description: string;
-
-  @Column({ nullable: true })
-  comment: string;
 
   @JoinColumn()
   @OneToOne(() => HabitatImage, (habitatImage) => habitatImage.id)

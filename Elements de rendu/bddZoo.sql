@@ -40,7 +40,6 @@ CREATE TABLE habitat (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    comment VARCHAR,
     "imageId" INT,
     FOREIGN KEY ("imageId")
         REFERENCES habitat_image(id)
@@ -61,7 +60,6 @@ CREATE TABLE animal (
     id SERIAL PRIMARY KEY NOT NULL ,
     name VARCHAR(50) NOT NULL,
     status VARCHAR(50) NOT NULL,
-    views INT NOT NULL,
     "speciesId" INT,
     "habitatId" INT,
     "imageId" INT,
@@ -89,6 +87,8 @@ CREATE TABLE vet_report (
     id SERIAL PRIMARY KEY NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT NOT NULL,
+    food VARCHAR(50) NOT NULL,
+    quantity VARCHAR(50) NOT NULL,
     "animalId" INT,
     "vetUserName" VARCHAR(50),
     FOREIGN KEY ("animalId")
@@ -108,16 +108,16 @@ INSERT INTO species (label) VALUES ('Lion'), ('Tigre'), ('Eléphant');
 INSERT INTO comment (alias, content, "isDisplayed")
 VALUES ('User1', 'Great zoo!', true),
        ('User2', 'Amazing animals!', false);
-INSERT INTO habitat (name, description, comment)
-VALUES ('La savane', 'Large grasslands', 'Suitable for lions'),
-       ('La jungle', 'Dense tropical forests', ''),
-       ('Le marais', '', '');
-INSERT INTO animal (name, status, views, "speciesId", "habitatId")
-VALUES ('Alex', 'En bonne santé', 234, 2, 1),
-       ('Hati', 'Malade', 152, 3, 2);
+INSERT INTO habitat (name, description)
+VALUES ('La savane', 'La savane est un type de paysage qui est composé surtout d''herbes.'),
+       ('La jungle', 'La jungle est la forme de végétation naturelle des régions équatoriales de basse altitude.'),
+       ('Le marais', 'Un marais est un terrain qui reste très humide la plupart du temps, souvent envahi de nappes d''eau stagnante peu profonde.');
+INSERT INTO animal (name, status, "speciesId", "habitatId")
+VALUES ('Alex', 'En bonne santé', 2, 1),
+       ('Hathi', 'Malade', 152, 2);
 INSERT INTO meal (food, quantity, "animalId", "employeeUserName")
-VALUES ('meat', '5 kg', 1, 'jane@example.com'),
-       ('leaves', '10 kg', 2, 'jane@example.com');
-INSERT INTO vet_report (content, "animalId", "vetUserName")
-VALUES ('Monthly checkup', 1, 'john@example.com'),
-       ('Emergency surgery', 2, 'john@example.com');
+VALUES ('viande', '5 kg', 1, 'jane@example.com'),
+       ('feuilles', '10 kg', 2, 'jane@example.com');
+INSERT INTO vet_report (content, food, quantity, "animalId", "vetUserName")
+VALUES ('Visite mensuelle de routine', 'viande', '10 kg' 1, 'john@example.com'),
+       ('Opération d''urgence', 'feuilles', '50 kg', 2, 'john@example.com');
