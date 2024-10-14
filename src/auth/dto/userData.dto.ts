@@ -8,4 +8,5 @@ export class UserDataDto {
   firstName: string;
   @IsEnum(Role)
   role: Role;
+  password: string;
 }

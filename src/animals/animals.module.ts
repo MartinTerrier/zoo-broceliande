@@ -10,6 +10,7 @@ import { AnimalImage } from './animalImage.entity';
 import { HabitatsService } from '../habitats/habitats.service';
 import { Habitat } from '../habitats/habitat.entity';
 import { HabitatImage } from '../habitats/habitatImage.entity';
+import { UsersRepository } from '../auth/users.repository';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { HabitatImage } from '../habitats/habitatImage.entity';
     ]),
   ],
   controllers: [AnimalsController],
-  providers: [AnimalsService, HabitatsService],
+  providers: [AnimalsService, HabitatsService, UsersRepository],
 })
 export class AnimalsModule {}

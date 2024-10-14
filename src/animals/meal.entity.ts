@@ -14,8 +14,11 @@ export class Meal {
   quantity: string;
 
   @ManyToOne(() => Animal, (animal) => animal.id)
-  animalId: number;
+  animal: Animal;
 
   @ManyToOne(() => User, (user) => user.userName)
-  employee: string;
+  employee: User;
+
+  @Column()
+  date: Date;
 }

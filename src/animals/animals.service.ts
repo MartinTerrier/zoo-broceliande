@@ -7,6 +7,10 @@ import { Species } from './species.entity';
 import { AnimalImage } from './animalImage.entity';
 import { extname } from 'path';
 import { HabitatsService } from '../habitats/habitats.service';
+import { Meal } from './meal.entity';
+import { MealDto } from './dto/meal.dto';
+import { UsersRepository } from '../auth/users.repository';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class AnimalsService {
@@ -17,6 +21,9 @@ export class AnimalsService {
     private animalImagesRepository: Repository<AnimalImage>,
     @InjectRepository(Species)
     private speciesRepository: Repository<Species>,
+    @InjectRepository(Meal)
+    private mealsRepository: Repository<Meal>,
+    private readonly usersRepository: UsersRepository,
     private readonly habitatsService: HabitatsService,
   ) {}
 
@@ -59,6 +66,16 @@ export class AnimalsService {
 
   async getAllSpecies() {
     return await this.speciesRepository.find();
+  }
+
+  async getMealsForAnimal(id: number) {
+    return await this.mealsRepository
+      .createQueryBuilder('meal')
+      .leftJoinAndSelect('meal.employee', 'employee')
+      .leftJoinAndSelect('meal.animal', 'animal')
+      .orderBy('meal.date')
+      .where('animal.id = :id', { id })
+      .getMany();
   }
 
   async createAnimal(animalDto: AnimalDto, imageFile?: Express.Multer.File) {
@@ -135,7 +152,29 @@ export class AnimalsService {
   }
 
   async createSpecies(label: string) {
-    return this.speciesRepository.create({ label });
+    const species = this.speciesRepository.findOneBy({ label });
+    if (species) return new Error(`L'espèce ${label} existe déjà.`);
+
+    const newSpecies = this.speciesRepository.create({ label });
+    await this.speciesRepository.save(newSpecies);
+    return newSpecies;
+  }
+
+  async createMeal(mealDto: MealDto) {
+    const { animalId, userName, food, quantity, date } = mealDto;
+    const employee = await this.usersRepository.getUser(userName);
+    const animal = await this.getAnimal(animalId);
+
+    const newMeal = this.mealsRepository.create({
+      employee,
+      animal,
+      food,
+      quantity,
+      date,
+    });
+
+    await this.mealsRepository.save(newMeal);
+    return newMeal;
   }
 
   private async uploadAnimalImage(dataBuffer: Buffer, fileName: string) {

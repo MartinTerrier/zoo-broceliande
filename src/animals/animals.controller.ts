@@ -21,6 +21,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { AnimalDto } from './dto/animal.dto';
 import { Response } from 'express';
 import { Readable } from 'stream';
+import { MealDto } from './dto/meal.dto';
 
 @Controller('animals')
 export class AnimalsController {
@@ -44,6 +45,11 @@ export class AnimalsController {
   @Get('/:id')
   async getAnimal(@Param('id', ParseIntPipe) id: number) {
     return await this.animalsService.getAnimal(id);
+  }
+
+  @Get('/meal/:id')
+  async getMealsForAnimal(@Param('id', ParseIntPipe) animalId: number) {
+    return await this.animalsService.getMealsForAnimal(animalId);
   }
 
   @Post()
@@ -99,6 +105,13 @@ export class AnimalsController {
   @Roles(Role.Admin)
   async createSpecies(@Body() label: string) {
     return await this.animalsService.createSpecies(label);
+  }
+
+  @Post('/meal')
+  @UseGuards(RolesGuard)
+  @Roles(Role.Employee)
+  async createMeal(@Body() mealDto: MealDto) {
+    return await this.animalsService.createMeal(mealDto);
   }
 
   @Get('/image/:id')
